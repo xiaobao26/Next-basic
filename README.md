@@ -45,3 +45,10 @@ function MyComponent() {
   return <p>Welcome, {session.user.name}!</p>;
 }
 ```
+
+
+<h1>add provider for each provider</h1>
+```
+ <button onClick={() => signIn('github')}>
+  <button onClick={() => signIn('google')}>
+```
