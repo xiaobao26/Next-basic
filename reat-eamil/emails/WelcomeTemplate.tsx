@@ -1,16 +1,19 @@
 import React from 'react';
-import { Html, Text, Body, Link, Preview, Container } from '@react-email/components';
+import { Html, Body, Container, Text, Link, Preview, Tailwind } from '@react-email/components';
 
 const WelcomeTemplate = ({ name}: { name: string }) => {
     return (
         <Html>
             <Preview>Welcome aboard!</Preview>
-                <Body>
-                    <Container>
-                        <Text>Hello {name}!</Text>
-                        <Link href="www.google.com">Google</Link>
-                    </Container>
-                </Body>
+                <Tailwind>
+                    <Body className='bg-slate-100'>
+                        <Container>
+                            <Text className='text-black font-bold text-3xl'>Hello {name}!</Text>
+                            <Link href="www.google.com">Google</Link>
+                        </Container>
+                    </Body>
+                </Tailwind>
+                
             
         </Html>
     )
