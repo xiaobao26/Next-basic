@@ -3,7 +3,7 @@ import { Html, Body, Container, Text, Link, Preview, Tailwind } from '@react-ema
 
 const WelcomeTemplate = ({ name}: { name: string }) => {
     return (
-        <Html>
+        <Html lang='en'>
             <Preview>Welcome aboard!</Preview>
                 <Tailwind>
                     <Body className='bg-slate-100'>
