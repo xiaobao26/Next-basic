@@ -4,7 +4,7 @@ import React from 'react'
 const page = () => {
     return (
         <>  
-            <div className='max-w-xl px-4 space-y-3'>
+            <div className='max-w-xl space-y-3'>
                 <TextField.Root placeholder='title'>
                     <TextField.Slot />
                 </TextField.Root>
