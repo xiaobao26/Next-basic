@@ -11,6 +11,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import createIssueSchema from '@/app/validationSchema'
 import { z } from 'zod'
+import ErrorMessage from '@/app/components/ErrorMessage'
 
 
 // Dynamically load SimpleMdeReact on the client side only
@@ -65,7 +66,10 @@ const Page = () => {
                 <TextField.Root placeholder='Title' {...register('title')}>
                     <TextField.Slot />
                 </TextField.Root>
-                {errors.title && <Text color='red' as='p'>{errors.title.message}</Text>}
+
+                <ErrorMessage>
+                    {errors.title?.message}
+                </ErrorMessage>
 
                 {mounted && <Controller
                     name="description"
@@ -76,7 +80,9 @@ const Page = () => {
                     }}
                 />
                 }
-                {errors.description && <Text color='red' as='p'>{errors.description.message}</Text>}
+                <ErrorMessage>
+                    {errors.description?.message}
+                </ErrorMessage>
                 <div className='w-full flex flex-row-reverse'>
                     <Button>Submit New Issue</Button>
                 </div>
