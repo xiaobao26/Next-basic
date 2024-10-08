@@ -1,12 +1,14 @@
 
 "use client"
-import { TextField, Button } from '@radix-ui/themes'
+import { TextField, Button, Callout } from '@radix-ui/themes'
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import "easymde/dist/easymde.min.css"
 import { useForm, Controller } from 'react-hook-form'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
+
 
 // Dynamically load SimpleMdeReact on the client side only
 // With no SSR
@@ -22,18 +24,34 @@ const Page = () => {
     const [mounted, setMounted] = useState(false);
     const { register, control, handleSubmit } = useForm<IssueForm>();
     const router = useRouter();
-    const href = "/issues"
+    const href = "/issues";
+    const [error, setError] = useState('');
 
     useEffect(() => {
         setMounted(true); // Ensures this is run only on the client-side
     }, []);
 
     return (
-        <>
-            <form className='max-w-xl space-y-3' onSubmit={handleSubmit(async (data) => {
-                // console.log(data)
-                await axios.post('/api/issue', data);
-                router.push(href);
+        <div className='max-w-xl '>
+            { error && 
+                    <div className='mb-4'>  
+                        <Callout.Root color='red' role='alert'>
+                            <Callout.Icon>
+                                <InfoCircledIcon />
+                            </Callout.Icon>
+                            <Callout.Text>
+                                {error}
+                            </Callout.Text>
+                        </Callout.Root>
+                    </div>
+            }
+            <form className='space-y-3' onSubmit={handleSubmit(async (data) => {
+                try {
+                    await axios.post('/api/issue', data);
+                    router.push(href);
+                } catch (e) {
+                    setError('An unexpected error occurred.')
+                }
             })}>
                 <TextField.Root placeholder='Title' {...register('title')}>
                     <TextField.Slot />
@@ -48,11 +66,9 @@ const Page = () => {
                     }}
                 />
                 }
-
-
                 <Button>Submit New Issue</Button>
             </form>
-        </>
+        </div>
     );
 };
 
