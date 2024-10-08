@@ -4,7 +4,11 @@
 
 
 @layer base {
+    * {
+        padding: 0;
+        margin: 0;
+    }
     h1 {
-        @apply text-2xl mb-3 font-poppins;
+        @apply text-2xl font-poppins;
     }
 }
