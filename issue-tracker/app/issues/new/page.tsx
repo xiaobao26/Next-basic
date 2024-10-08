@@ -9,9 +9,11 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { zodResolver } from '@hookform/resolvers/zod'
-import createIssueSchema from '@/app/validationSchema'
 import { z } from 'zod'
 import ErrorMessage from '@/app/components/ErrorMessage'
+
+import createIssueSchema from '@/app/validationSchema'
+import Spinner from '../../components/Spinner'
 
 
 // Dynamically load SimpleMdeReact on the client side only
@@ -36,6 +38,7 @@ const Page = () => {
     const router = useRouter();
     const href = "/issues";
     const [error, setError] = useState('');
+    const [isSubmit, setIsSubmit] = useState(false);
 
     useEffect(() => {
         setMounted(true); // Ensures this is run only on the client-side
@@ -57,6 +60,7 @@ const Page = () => {
             } */}
             <form className='space-y-3' onSubmit={handleSubmit(async (data) => {
                 try {
+                    setIsSubmit(true)
                     await axios.post('/api/issue', data);
                     router.push(href);
                 } catch (e) {
@@ -84,7 +88,10 @@ const Page = () => {
                     {errors.description?.message}
                 </ErrorMessage>
                 <div className='w-full flex flex-row-reverse'>
-                    <Button>Submit New Issue</Button>
+                    <Button disabled={isSubmit}>
+                        Submit New Issue
+                        {isSubmit && <Spinner />}
+                    </Button>
                 </div>
                 
             </form>
