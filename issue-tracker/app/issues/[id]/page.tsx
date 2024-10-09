@@ -13,7 +13,6 @@ interface Props {
 }
 
 const IssueDetailPage = async ({ params } : Props) => {
-    await delay(1000);
 
     const issue = await prisma.issue.findUnique({
         where: {
@@ -24,6 +23,7 @@ const IssueDetailPage = async ({ params } : Props) => {
     if (!issue) {
         notFound();
     }
+    await delay(3000);
 
     return (
         <div className='max-w-xl'>

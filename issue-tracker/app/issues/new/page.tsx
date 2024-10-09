@@ -11,6 +11,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import ErrorMessage from '@/app/components/ErrorMessage'
+import delay from 'delay'
 
 import createIssueSchema from '@/app/validationSchema'
 import Spinner from '../../components/Spinner'
@@ -30,7 +31,7 @@ type IssueForm = z.infer<typeof createIssueSchema>
 
 
 
-const Page = () => {
+const Page = async () => {
     const [mounted, setMounted] = useState(false);
     const { register, control, handleSubmit, formState: { errors } } = useForm<IssueForm>({
         resolver: zodResolver(createIssueSchema)
@@ -39,6 +40,7 @@ const Page = () => {
     const href = "/issues";
     const [error, setError] = useState('');
     const [isSubmit, setIsSubmit] = useState(false);
+    // await delay(5000);
 
     const onSubmit = handleSubmit(async (data) => {
         try {
@@ -56,18 +58,6 @@ const Page = () => {
 
     return (
         <div className='max-w-xl'>
-            {/* { error && 
-                    <div className='mb-4'>  
-                        <Callout.Root color='red' role='alert'>
-                            <Callout.Icon>
-                                <InfoCircledIcon />
-                            </Callout.Icon>
-                            <Callout.Text>
-                                {error}
-                            </Callout.Text>
-                        </Callout.Root>
-                    </div>
-            } */}
             <form className='space-y-3' onSubmit={onSubmit}>
                 <TextField.Root placeholder='Title' {...register('title')}>
                     <TextField.Slot />
@@ -95,7 +85,6 @@ const Page = () => {
                         {isSubmit && <Spinner />}
                     </Button>
                 </div>
-                
             </form>
         </div>
     );
