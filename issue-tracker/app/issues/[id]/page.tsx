@@ -1,10 +1,8 @@
-import IssueStateBadge from '@/app/components/IssueStateBadge';
-import prisma from '@/prisma/client'
-import { Heading, Text, Flex, Card } from '@radix-ui/themes';
-import delay from 'delay';
+import { IssueStateBadge } from '@/app/components';
+import prisma from '@/prisma/client';
+import { Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { notFound } from 'next/navigation';
-import React from 'react'
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown';
 
 
 
@@ -23,7 +21,6 @@ const IssueDetailPage = async ({ params } : Props) => {
     if (!issue) {
         notFound();
     }
-    await delay(3000);
 
     return (
         <div className='max-w-xl'>

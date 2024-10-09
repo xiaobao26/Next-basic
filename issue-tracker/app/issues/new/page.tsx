@@ -1,20 +1,18 @@
 
 "use client"
-import { TextField, Button, Callout, Text } from '@radix-ui/themes'
-import { useEffect, useState } from 'react'
-import dynamic from 'next/dynamic'
-import "easymde/dist/easymde.min.css"
-import { useForm, Controller } from 'react-hook-form'
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
-import { InfoCircledIcon } from '@radix-ui/react-icons'
+import { ErrorMessage, Spinner } from '@/app/components'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button, TextField } from '@radix-ui/themes'
+import axios from 'axios'
+import "easymde/dist/easymde.min.css"
+import dynamic from 'next/dynamic'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import ErrorMessage from '@/app/components/ErrorMessage'
-import delay from 'delay'
 
 import createIssueSchema from '@/app/validationSchema'
-import Spinner from '../../components/Spinner'
+
 
 
 // Dynamically load SimpleMdeReact on the client side only
@@ -40,7 +38,6 @@ const Page = async () => {
     const href = "/issues";
     const [error, setError] = useState('');
     const [isSubmit, setIsSubmit] = useState(false);
-    // await delay(5000);
 
     const onSubmit = handleSubmit(async (data) => {
         try {
