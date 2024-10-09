@@ -1,12 +1,9 @@
-import { Button } from "@radix-ui/themes"
-import Link from 'next/link'
+import React from 'react'
 
-export default function Home() {
-  return (
-    <>
-      <Button>
-        <Link href='/issues/new'>New Issue</Link>
-      </Button>
-    </>
-  )
+const page = () => {
+    return (
+        <div>Home Page</div>
+    )
 }
+
+export default page

@@ -40,6 +40,16 @@ const Page = () => {
     const [error, setError] = useState('');
     const [isSubmit, setIsSubmit] = useState(false);
 
+    const onSubmit = handleSubmit(async (data) => {
+        try {
+            setIsSubmit(true)
+            await axios.post('/api/issue', data);
+            router.push(href);
+        } catch (e) {
+            setError('An unexpected error occurred.')
+        }
+    })
+
     useEffect(() => {
         setMounted(true); // Ensures this is run only on the client-side
     }, []);
@@ -58,15 +68,7 @@ const Page = () => {
                         </Callout.Root>
                     </div>
             } */}
-            <form className='space-y-3' onSubmit={handleSubmit(async (data) => {
-                try {
-                    setIsSubmit(true)
-                    await axios.post('/api/issue', data);
-                    router.push(href);
-                } catch (e) {
-                    setError('An unexpected error occurred.')
-                }
-            })}>
+            <form className='space-y-3' onSubmit={onSubmit}>
                 <TextField.Root placeholder='Title' {...register('title')}>
                     <TextField.Slot />
                 </TextField.Root>
