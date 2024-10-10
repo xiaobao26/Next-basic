@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, TextField } from '@radix-ui/themes'
 import axios from 'axios'
 import "easymde/dist/easymde.min.css"
-import dynamic from 'next/dynamic'
+import SimpleMDE from 'react-simplemde-editor'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -15,20 +15,6 @@ import createIssueSchema from '@/app/validationSchema'
 import { Issue } from '@prisma/client'
 
 
-
-// Dynamically load SimpleMdeReact on the client side only
-// With no SSR
-// To dynamically load a component on the client side, you can use the ssr option to disable server-rendering. This is useful if an external dependency or component relies on browser APIs like window.
-const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false });
-
-// in schema already has type required, so change to simple one 
-// interface IssueForm {
-//     title: string;
-//     description: string;
-// }
-// interface Props {
-//     issue?: Issue;
-// }
 
 type IssueFormData = z.infer<typeof createIssueSchema>
 
