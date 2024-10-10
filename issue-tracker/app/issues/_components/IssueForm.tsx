@@ -46,8 +46,10 @@ const IssueForm = async ({ issue }: {issue?: Issue}) => {
     const onSubmit = handleSubmit(async (data) => {
         try {
             setIsSubmit(true)
-            await axios.post('/api/issue', data);
+            if (issue) await axios.patch('/api/issue/' + issue.id, data);
+            else await axios.post('/api/issue', data);
             router.push(href);
+            router.refresh();
         } catch (e) {
             setError('An unexpected error occurred.')
         }
@@ -83,8 +85,8 @@ const IssueForm = async ({ issue }: {issue?: Issue}) => {
                 </ErrorMessage>
                 <div className='w-full flex flex-row-reverse'>
                     <Button disabled={isSubmit}>
-                        Submit New Issue
-                        {isSubmit && <Spinner />}
+                        {issue ? 'Submit New Issue' : 'Update Issue'}
+                        {isSubmit && <Spinner />}{' '}
                     </Button>
                 </div>
             </form>
