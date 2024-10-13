@@ -71,7 +71,7 @@ const IssueForm = async ({ issue }: {issue?: Issue}) => {
                 </ErrorMessage>
                 <div className='w-full flex flex-row-reverse'>
                     <Button disabled={isSubmit}>
-                        {issue ? 'Submit New Issue' : 'Update Issue'}
+                        {issue ? 'Update Issue' : 'Submit New Issue'}
                         {isSubmit && <Spinner />}{' '}
                     </Button>
                 </div>
