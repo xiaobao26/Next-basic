@@ -2,60 +2,80 @@
 import { AlertDialog, Button, Flex } from '@radix-ui/themes'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { FaTrash } from "react-icons/fa";
 
 
 
 const DeleteIssueButton = async ({ issueId }: { issueId: number }) => {
     const router = useRouter();
+    const [error, setError] = useState(false);
 
-    const handleDelete = async () => {
+    const DeleteIssue = async () => {
         try {
-            
-
+            await axios.delete('/api/issue/' + issueId);
+            router.push('/issues');
+            router.refresh();
         } catch (error) {
-            console.log("error when deleting!")
+            setError(true);
         }
-    }
+    };
+
+    const CloseErrorWindow = () => {
+        setError(false);
+    };
 
     return (
-        <AlertDialog.Root>
-            <AlertDialog.Trigger>
-                <Button color='red'>
-                    <FaTrash />
-                    Delete
-                </Button>
-            </AlertDialog.Trigger>
+        <>
+            <AlertDialog.Root>
+                <AlertDialog.Trigger>
+                    <Button color='red'>
+                        <FaTrash />
+                        Delete
+                    </Button>
+                </AlertDialog.Trigger>
 
-            <AlertDialog.Content maxWidth="450px">
-                <AlertDialog.Title>Confirm delete Issue</AlertDialog.Title>
-                <AlertDialog.Description size="2">
-                    Are you sure? This application will no longer be accessible and any
-                    existing sessions will be expired.
-                </AlertDialog.Description>
+                <AlertDialog.Content maxWidth="450px">
+                    <AlertDialog.Title>Confirm delete Issue</AlertDialog.Title>
+                    <AlertDialog.Description size="2">
+                        Are you sure? This application will no longer be accessible and any
+                        existing sessions will be expired.
+                    </AlertDialog.Description>
 
-                <Flex gap="3" mt="4" justify="end">
-                    <AlertDialog.Cancel>
-                        <Button variant="soft" color="gray">
-                            Cancel
-                        </Button>
-                    </AlertDialog.Cancel>
-                    <AlertDialog.Action>
-                        <Button 
-                            variant="solid"
-                            color="red"
-                            onClick={async () => {
-                                await axios.delete('/api/issue/' + issueId)
-                                router.push('/issues');
-                                router.refresh();
-                            }}
-                        >
-                            Delete 
-                        </Button>
-                    </AlertDialog.Action>
-                </Flex>
-            </AlertDialog.Content>
-        </AlertDialog.Root>
+                    <Flex gap="3" mt="4" justify="end">
+                        <AlertDialog.Cancel>
+                            <Button variant="soft" color="gray">
+                                Cancel
+                            </Button>
+                        </AlertDialog.Cancel>
+                        <AlertDialog.Action>
+                            <Button 
+                                variant="solid"
+                                color="red"
+                                onClick={DeleteIssue}
+                            >
+                                Delete 
+                            </Button>
+                        </AlertDialog.Action>
+                    </Flex>
+                </AlertDialog.Content>
+            </AlertDialog.Root>
+            
+
+            <AlertDialog.Root open={error}>
+                <AlertDialog.Content>
+                    <AlertDialog.Title color='red'>
+                        Delete Error
+                    </AlertDialog.Title>
+                    <AlertDialog.Description className='mb-3'>
+                        Cannot delete this issue!
+                    </AlertDialog.Description>
+                    <Button variant="soft" color="gray" onClick={CloseErrorWindow}>
+                        Ok
+                    </Button>
+                </AlertDialog.Content>
+            </AlertDialog.Root>
+        </>
         
     )
 }
