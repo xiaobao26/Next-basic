@@ -52,3 +52,6 @@ function MyComponent() {
  <button onClick={() => signIn('github')}>
   <button onClick={() => signIn('google')}>
 ```
+
+
+openssl rand -base64 32
