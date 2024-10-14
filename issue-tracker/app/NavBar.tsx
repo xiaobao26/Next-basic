@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import classnames from 'classnames'
 import { useSession } from 'next-auth/react'
 import { Avatar, Box, DropdownMenu, Flex, Text } from '@radix-ui/themes'
+import Skeleton from '@/app/components/Skeleton'
 
 const NavBar = () => {
 
@@ -61,7 +62,7 @@ const NavLinks = () => {
 const AuthStatus = () => {
     const { data: session, status } = useSession();
 
-    if (status === 'loading') return <div>Loading...</div>
+    if (status === 'loading') return <Skeleton width='2rem' height='2rem' className='rounded-full'/>
 
     if (status === 'unauthenticated') return <Link className='nav-link' href='/api/auth/signin'>Sign In</Link>
 
