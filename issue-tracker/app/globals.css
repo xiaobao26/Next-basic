@@ -9,6 +9,12 @@
   --font-inter: 'Inter', sans-serif; /* Fallback fonts */
 }
 
+@layer utilities {
+  .nav-link {
+    @apply text-zinc-400 hover:text-zinc-700 transition-colors
+  }
+}
+
 
 @media (prefers-color-scheme: dark) {
   :root {
