@@ -5,7 +5,7 @@ import { ImBug } from "react-icons/im"
 import { usePathname } from 'next/navigation'
 import classnames from 'classnames'
 import { useSession } from 'next-auth/react'
-import { Box, Flex } from '@radix-ui/themes'
+import { Avatar, Box, Button, DropdownMenu, Flex, Text } from '@radix-ui/themes'
 
 const NavBar = () => {
     const { data: session, status } = useSession();
@@ -47,7 +47,23 @@ const NavBar = () => {
 
                 <Box>
                     { status === 'authenticated' && 
-                        <Link href='/api/auth/signout'>Sign Out</Link>
+                        (<DropdownMenu.Root>
+                            <DropdownMenu.Trigger>
+                                <Avatar src={session.user!.image!} fallback="XXX" size='3' radius='full' className='cursor-pointer'/>
+                            </DropdownMenu.Trigger>
+
+                            <DropdownMenu.Content>
+                                <DropdownMenu.Label className='mb-1'>
+                                    <Text size='3'>
+                                        {session.user!.email}
+                                    </Text>
+                                </DropdownMenu.Label>
+
+                                <DropdownMenu.Item>
+                                    <Link href='/api/auth/signout'>Sign Out</Link>
+                                </DropdownMenu.Item>
+                            </DropdownMenu.Content>
+                        </DropdownMenu.Root>)
                     }
                     { status === 'unauthenticated' && 
                         <Link href='/api/auth/signin'>Sign In</Link>
