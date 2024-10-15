@@ -8,6 +8,7 @@ import { Theme } from "@radix-ui/themes";
 
 import NavBar from './NavBar'
 import AuthProvider from "./auth/Provider";
+import QueryClientProvider from "./QueryClientProvider";
 
 
 const inter = Inter({ 
@@ -29,14 +30,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body>
-        <AuthProvider>
-          <Theme accentColor="iris">
-            <NavBar />
-            <main className="p-5 ">
-              {children}
-            </main>
-          </Theme>
-        </AuthProvider>
+        <QueryClientProvider>
+          <AuthProvider>
+            <Theme accentColor="iris">
+              <NavBar />
+              <main className="p-5 ">
+                {children}
+              </main>
+            </Theme>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   )
