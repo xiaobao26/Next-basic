@@ -9,28 +9,25 @@ import Skeleton from '@/app/components/Skeleton';
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
 
-    const { data: users, error, isLoading } = useQuery<User[]>({
-        queryKey: ['user'],
-        queryFn: () => axios.get('/api/user').then(res => res.data),
-        // 60s
-        staleTime: 60 * 1000,
-        retry: 3
-    });
+    const { data: users, error, isLoading } = useUsers();
 
     if (isLoading) return <Skeleton height='2rem' />
 
     if (error) return null;
 
+    const assignIssue = (userId: string) => {
+        axios.patch('/api/issue/' + issue.id, { assignedToUserId: userId === 'null' ? null : userId })
+            .catch(() => {
+                toast.error('Change could not be saved!')
+            })
+    };
+
     return (
         <>
             <Select.Root
                 defaultValue={issue.assignedToUserId || 'null'}
-                onValueChange={(userId) => {
-                    axios.patch('/api/issue/' + issue.id, { assignedToUserId: userId === 'null' ? null : userId })
-                        .catch(() => {
-                            toast.error('Change could not be saved!')
-                        })
-                }}>
+                onValueChange={assignIssue}
+            >
                 <Select.Trigger placeholder='assignee...' />
                 <Select.Content>
                     <Select.Group>
@@ -49,3 +46,11 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     )
 }
 export default AssigneeSelect
+
+const useUsers = () =>  useQuery<User[]>({
+    queryKey: ['user'],
+    queryFn: () => axios.get('/api/user').then(res => res.data),
+    // 60s
+    staleTime: 60 * 1000,
+    retry: 3
+});
